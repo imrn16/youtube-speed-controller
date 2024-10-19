@@ -32,10 +32,10 @@ const App = () => {
 					boostIntervalRef.current = setInterval(boostSpeed, 100);
 				}
 				//boost view
-			} else if (e.key === `'`) {
+			} else if (e.key === `;`) {
 				resetSpeed();
 				//hide
-			} else if (e.key === `;`) {
+			} else if (e.key === `'`) {
 				setToggleVisible(!toggleVisible);
 				//hide view
 			}

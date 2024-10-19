@@ -2,9 +2,9 @@
 	console.log("content.js loaded");
 
 	function initialize() {
-		const player =  document.querySelector("#ytd-player"
-		//	|| document.querySelector("#movie_player") 
-
+		const player = document.querySelector(
+			"#ytd-player"
+			//	|| document.querySelector("#movie_player")
 		);
 		if (!player) {
 			console.log("Player not found");
@@ -29,9 +29,9 @@
 	}
 
 	const observer = new MutationObserver(() => {
-		const player = document.querySelector("#ytd-player" 
-		// || document.querySelector("#movie_player"
-
+		const player = document.querySelector(
+			"#ytd-player"
+			// || document.querySelector("#movie_player"
 		);
 		if (player) {
 			observer.disconnect();

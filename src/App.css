@@ -1,6 +1,62 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
+button .rewind-fill-icon {
+  display: none;
+}
+
+button:active .rewind-fill-icon {
+  display: inline-block;
+}
+
+button:active .rewind-icon {
+  display: none;
+}
+
+button .forward-fill-icon {
+  display: none;
+}
+
+button:active .forward-fill-icon {
+  display: inline-block;
+}
+
+button:active .forward-icon {
+  display: none;
+}
+
+.rounded-l-cust {
+  border-top-left-radius: 2500px;
+  border-bottom-left-radius: 2500px;
+}
+
+.rounded-r-cust {
+  border-top-right-radius: 2500px;
+  border-bottom-right-radius: 2500px;
+}
+
+.mybox:before,
+.mybox:after {
+	box-sizing: border-box;
+	border-width: 0;
+	border-style: transparent;
+	border-color: #e5e7eb;
+}
+
+/** 
+
+NEED TO UPDATE dist/assets/index.css first green element to this
+
+:before,
+:after {
+	box-sizing: content-box;
+	border-width: 0;
+	border-style: transparent;
+	border-color: #e5e7eb;
+}
+
+*/
 
 /* #root {
   max-width: 1280px;

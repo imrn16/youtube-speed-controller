@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
-import { PiFastForwardBold, PiRewindBold, PiFastForward, PiRewind } from "react-icons/pi";
+import { PiFastForwardFill, PiRewindFill, PiFastForward, PiRewind } from "react-icons/pi";
 
 const App = () => {
 	const [speed, setSpeed] = useState(1.0);
@@ -8,10 +8,11 @@ const App = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [toggleVisible, setToggleVisible] = useState(true);
 
+	const mouseTimeoutRef = useRef(null);
 	const boostIntervalRef = useRef(null);
 
-	const [btnFFClicked, setBtnFFClicked] = useState(false);
-	const [btnRWClicked, setBtnRWClicked] = useState(false);
+	// const [btnFFClicked, setBtnFFClicked] = useState(false);
+	// const [btnRWClicked, setBtnRWClicked] = useState(false);
 
 	useEffect(() => {
 		const video = document.querySelector("video");
@@ -19,7 +20,6 @@ const App = () => {
 			video.playbackRate = speed;
 		}
 
-		let boostInterval;
 		const handleKeyDown = (e) => {
 			if (e.key === "[") {
 				decreaseSpeed();
@@ -44,14 +44,32 @@ const App = () => {
 		const handleKeyUp = (e) => {
 			if (e.key === `\\`) {
 				clearInterval(boostIntervalRef.current);
-				boostIntervalRef.current = null; // Clear the interval reference
-				setSpeed(prevSpeed); // Restore speed to previous value after boosting
+				boostIntervalRef.current = null;
+				setSpeed(prevSpeed);
 			}
 		};
 
 		const handleMouseEnter = (e) => {
 			if (!e.relatedTarget || e.relatedTarget.closest("#yt-speed-controls") === null) {
 				setIsVisible(true);
+			}
+			if (mouseTimeoutRef.current) {
+				clearTimeout(mouseTimeoutRef.current);
+			}
+			mouseTimeoutRef.current = setTimeout(() => {
+				setIsVisible(false);
+			}, 3000);
+		};
+
+		const handleMouseMove = (e) => {
+			if (e.target.closest("video")) {
+				if (!isVisible) setIsVisible(true);
+				if (mouseTimeoutRef.current) {
+					clearTimeout(mouseTimeoutRef.current);
+				}
+				mouseTimeoutRef.current = setTimeout(() => {
+					setIsVisible(false);
+				}, 3000);
 			}
 		};
 
@@ -63,6 +81,8 @@ const App = () => {
 
 		document.addEventListener("keydown", handleKeyDown);
 		document.addEventListener("keyup", handleKeyUp);
+		document.addEventListener("mousemove", handleMouseMove);
+
 		const videoElement = document.querySelector("video");
 		if (videoElement) {
 			videoElement.addEventListener("mouseenter", handleMouseEnter);
@@ -72,6 +92,7 @@ const App = () => {
 		return () => {
 			document.removeEventListener("keydown", handleKeyDown);
 			document.removeEventListener("keyup", handleKeyUp);
+			document.removeEventListener("mousemove", handleMouseMove);
 			if (videoElement) {
 				videoElement.removeEventListener("mouseenter", handleMouseEnter);
 				videoElement.removeEventListener("mouseleave", handleMouseLeave);
@@ -81,18 +102,46 @@ const App = () => {
 
 	const increaseSpeed = () => {
 		setSpeed((prevSpeed) => Math.min(prevSpeed + 0.25, 16.0));
+		if (!isVisible) setIsVisible(true);
+		if (mouseTimeoutRef.current) {
+			clearTimeout(mouseTimeoutRef.current);
+		}
+		mouseTimeoutRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 3000);
 	};
 
 	const decreaseSpeed = () => {
 		setSpeed((prevSpeed) => Math.max(prevSpeed - 0.25, 0.25));
+		if (!isVisible) setIsVisible(true);
+		if (mouseTimeoutRef.current) {
+			clearTimeout(mouseTimeoutRef.current);
+		}
+		mouseTimeoutRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 3000);
 	};
 
 	const resetSpeed = () => {
 		setSpeed(1.0);
+		if (!isVisible) setIsVisible(true);
+		if (mouseTimeoutRef.current) {
+			clearTimeout(mouseTimeoutRef.current);
+		}
+		mouseTimeoutRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 3000);
 	};
 
 	const boostSpeed = () => {
 		setSpeed(16.0);
+		if (!isVisible) setIsVisible(true);
+		if (mouseTimeoutRef.current) {
+			clearTimeout(mouseTimeoutRef.current);
+		}
+		mouseTimeoutRef.current = setTimeout(() => {
+			setIsVisible(false);
+		}, 3000);
 	};
 
 	return (
@@ -100,23 +149,29 @@ const App = () => {
 		isVisible && (
 			<div
 				id="yt-speed-controls"
-				className="absolute imran top-5 right-5 h-12 text-sm w-40 bg-neutral-900 bg-opacity-60 text-white rounded-full flex items-center z-auto pointer-events-auto border-2 border-neutral-800">
-				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-l-full h-12 justify-items-center align-center bg-prple-600">
+				className="absolute imran mybox top-5 right-5 h-12 text-sm w-40 bg-neutral-900 bg-opacity-70 text-white rounded-full flex items-center z-auto pointer-events-auto">
+				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-r-cust rounded-l-full h-12 justify-items-center align-center bg-prple-600">
 					<button
-						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400"
+						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400 focus:outline-none"
 						onClick={decreaseSpeed}>
-						<PiRewind
-							className="flex"
-							size={"16"}
-						/>
+						<span className="icon">
+							<PiRewind
+								className="rewind-icon"
+								size={"16"}
+							/>
+							<PiRewindFill
+								className="rewind-fill-icon hidden"
+								size={"16"}
+							/>
+						</span>
 					</button>
 				</div>
 
 				<div className="h-6 w-px bg-gray-400"></div>
 
-				<div className="flex w-1/2 h-12  justify-between bg-rd-900 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500">
+				<div className="flex w-1/2 h-12  justify-between bg-rd-900 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-lg">
 					<button
-						className="flex items-center justify-center bg-gren-400 w-full h-full text-xl font-bold"
+						className="flex items-center justify-center bg-gren-400 w-full h-full text-xl font-bold focus:outline-none"
 						style={{ userSelect: "none" }}
 						onClick={resetSpeed}>
 						{speed.toFixed(2)}
@@ -125,14 +180,20 @@ const App = () => {
 
 				<div className="h-6 w-px bg-gray-400"></div>
 
-				<div className="flex ml-auto w-1/3 bg-prple-400 rounded-r-full h-12 justify-items-center hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-l-xl">
+				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-l-cust rounded-r-full h-12 justify-items-center align-center bg-prple-600">
 					<button
-						className="flex justify-center items-center bg-gren-700 w-full justify-center  actve:text-red-500"
+						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400 focus:outline-none"
 						onClick={increaseSpeed}>
-						<PiFastForward
-							className="flex"
-							size={"16"}
-						/>
+						<span className="icon">
+							<PiFastForward
+								className="forward-icon"
+								size={"16"}
+							/>
+							<PiFastForwardFill
+								className="forward-fill-icon hidden"
+								size={"16"}
+							/>
+						</span>
 					</button>
 				</div>
 			</div>
@@ -141,40 +202,3 @@ const App = () => {
 };
 
 export default App;
-
-{
-	/* <button
-					className="flex justify-center items-center h-6 bg-rd-700 w-full hovr:text-red-500 bg-netral-400"
-					onClick={decreaseSpeed}
-					onMouseDown={() => {
-						decreaseSpeed
-						setBtnRWClicked(true)}}
-					onMouseUp={() => setBtnRWClicked(false)}>
-						{btnRWClicked ? <PiRewindBold
-						className="flex"
-						size={"16"}
-					/> : <PiRewind
-					className="flex"
-					size={"16"}
-				/>}
-				</button> */
-}
-
-{
-	/* <button
-					className="flex justify-center items-center bg-gren-700 w-full justify-center  actve:text-red-500"
-					onClick={increaseSpeed}
-					onMouseDown={() => {
-						increaseSpeed
-						setBtnFFClicked(true)}}
-					onMouseUp={() => setBtnFFClicked(false)}>
-						{btnFFClicked ? <PiFastForwardBold
-						className="flex"
-						size={"16"}
-					/> : <PiFastForward
-					className="flex"
-					size={"16"}
-				/>}
-					
-				</button> */
-}

@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
-	"name": "YouTube Speed Controller",
+	"name": "YouTube Playback Speed",
 	"version": "1.0",
-	"description": "Adjust the playback speed of YouTube videos with ease.",
+	"description": "Adjust the playback speed of YouTube videos with ease, with keyboard shortcuts!",
 	"permissions": ["activeTab", "scripting"],
 	"content_scripts": [
 		{

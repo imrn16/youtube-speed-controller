@@ -149,7 +149,7 @@ const App = () => {
 		isVisible && (
 			<div
 				id="yt-speed-controls"
-				className="absolute imran mybox top-5 right-5 h-12 text-sm w-40 bg-neutral-900 bg-opacity-70 text-white rounded-full flex items-center z-auto pointer-events-auto">
+				className="absolute mybox top-4 right-20 h-12 text-sm w-40 bg-neutral-900 bg-opacity-70 text-white rounded-full flex items-center z-50 pointer-events-auto">
 				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-r-cust rounded-l-full h-12 justify-items-center align-center bg-prple-600">
 					<button
 						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400 focus:outline-none"

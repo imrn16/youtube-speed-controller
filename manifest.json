@@ -6,20 +6,23 @@
 	"permissions": ["activeTab", "scripting"],
 	"content_scripts": [
 		{
-			//"matches": ["*://www.youtube.com/*"],
-			"matches": ["<all_urls>"],
+			"matches": ["*://www.youtube.com/*"],
+			//"matches": ["<all_urls>"],
             "css": ["dist/assets/index.css"],
-			"js": ["content.js"]
+			"js": ["content.js"],
+			"run_at": "document_end"
 		}
 	],
+	 "incognito": "split",
+	 
 	"background": {
 		"service_worker": "public/background.js"
 	  },
 	"web_accessible_resources": [
 		{
 			"resources": ["dist/assets/index.js", "dist/assets/index.css"],
-			"matches": ["<all_urls>"]
-			//"matches": ["*://www.youtube.com/*"]
+			//"matches": ["<all_urls>"]
+			"matches": ["*://www.youtube.com/*"]
 		}
 	]
 	,

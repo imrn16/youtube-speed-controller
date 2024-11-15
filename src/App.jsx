@@ -14,6 +14,97 @@ const App = () => {
 	// const [btnFFClicked, setBtnFFClicked] = useState(false);
 	// const [btnRWClicked, setBtnRWClicked] = useState(false);
 
+	// useEffect(() => {
+	// 	const videoCheckInterval = setInterval(() => {
+	// 		const video = document.querySelector("video");
+	// 		if (video) {
+	// 			video.playbackRate = speed;
+	// 			clearInterval(videoCheckInterval); // Clear the interval once the video is found
+	
+	// 			const handleKeyDown = (e) => {
+	// 				if (e.key === "[") {
+	// 					decreaseSpeed();
+	// 				} else if (e.key === "]") {
+	// 					increaseSpeed();
+	// 				} else if (e.key === "\\") {
+	// 					if (!boostIntervalRef.current) {
+	// 						setPrevSpeed(speed);
+	// 						boostSpeed();
+	// 						boostIntervalRef.current = setInterval(boostSpeed, 100);
+	// 					}
+	// 				} else if (e.key === ";") {
+	// 					resetSpeed();
+	// 				} else if (e.key === ")") {
+	// 					setToggleVisible(!toggleVisible);
+	// 				}
+	// 			};
+	
+	// 			const handleKeyUp = (e) => {
+	// 				if (e.key === "\\") {
+	// 					clearInterval(boostIntervalRef.current);
+	// 					boostIntervalRef.current = null;
+	// 					setSpeed(prevSpeed);
+	// 				}
+	// 			};
+	
+	// 			const handleMouseEnter = (e) => {
+	// 				if (!e.relatedTarget || e.relatedTarget.closest("#yt-speed-controls") === null) {
+	// 					setIsVisible(true);
+	// 				}
+	// 				if (mouseTimeoutRef.current) {
+	// 					clearTimeout(mouseTimeoutRef.current);
+	// 				}
+	// 				mouseTimeoutRef.current = setTimeout(() => {
+	// 					setIsVisible(false);
+	// 				}, 3000);
+	// 			};
+	
+	// 			const handleMouseMove = (e) => {
+	// 				if (e.target.closest("ytd-player")) {
+	// 					if (!isVisible) setIsVisible(true);
+	// 					if (mouseTimeoutRef.current) {
+	// 						clearTimeout(mouseTimeoutRef.current);
+	// 					}
+	// 					mouseTimeoutRef.current = setTimeout(() => {
+	// 						setIsVisible(false);
+	// 					}, 3000);
+	// 				}
+	// 			};
+	
+	// 			const handleMouseLeave = (e) => {
+	// 				if (!e.relatedTarget || e.relatedTarget.closest("#yt-speed-controls") === null) {
+	// 					setIsVisible(false);
+	// 				}
+	// 			};
+	
+	// 			document.addEventListener("keydown", handleKeyDown);
+	// 			document.addEventListener("keyup", handleKeyUp);
+	// 			document.addEventListener("mousemove", handleMouseMove);
+	
+	// 			const videoElement = document.querySelector("ytd-player");
+	// 			if (videoElement) {
+	// 				videoElement.addEventListener("mouseenter", handleMouseEnter);
+	// 				videoElement.addEventListener("mouseleave", handleMouseLeave);
+	// 			}
+	
+	// 			return () => {
+	// 				document.removeEventListener("keydown", handleKeyDown);
+	// 				document.removeEventListener("keyup", handleKeyUp);
+	// 				document.removeEventListener("mousemove", handleMouseMove);
+	// 				if (videoElement) {
+	// 					videoElement.removeEventListener("mouseenter", handleMouseEnter);
+	// 					videoElement.removeEventListener("mouseleave", handleMouseLeave);
+	// 				}
+	// 			};
+	// 		}
+	// 	}, 100); // Check every 100ms for the video element
+	
+	// 	return () => {
+	// 		clearInterval(videoCheckInterval); // Cleanup interval on unmount
+	// 	};
+	// }, [speed, isVisible, toggleVisible]);
+	
+
 	useEffect(() => {
 		const video = document.querySelector("video");
 		if (video) {
@@ -62,7 +153,7 @@ const App = () => {
 		};
 
 		const handleMouseMove = (e) => {
-			if (e.target.closest("video")) {
+			if (e.target.closest("ytd-player")) {
 				if (!isVisible) setIsVisible(true);
 				if (mouseTimeoutRef.current) {
 					clearTimeout(mouseTimeoutRef.current);
@@ -83,7 +174,7 @@ const App = () => {
 		document.addEventListener("keyup", handleKeyUp);
 		document.addEventListener("mousemove", handleMouseMove);
 
-		const videoElement = document.querySelector("video");
+		const videoElement = document.querySelector("ytd-player");
 		if (videoElement) {
 			videoElement.addEventListener("mouseenter", handleMouseEnter);
 			videoElement.addEventListener("mouseleave", handleMouseLeave);
@@ -149,8 +240,8 @@ const App = () => {
 		isVisible && (
 			<div
 				id="yt-speed-controls"
-				className="absolute mybox top-4 right-20 h-12 text-sm w-40 bg-neutral-900 bg-opacity-70 text-white rounded-full flex items-center z-50 pointer-events-auto">
-				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-r-cust rounded-l-full h-12 justify-items-center align-center bg-prple-600">
+				className="absolute mybox top-4 right-20 h-12 text-sm w-40 bg-neutral-900 bg-opacity-70 backdrop-blur-sm text-white rounded-full flex items-center z-50 pointer-events-auto">
+				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-40 bg-opacity-0 bg-neutral-500 rounded-r-cust rounded-l-full h-12 justify-items-center align-center bg-prple-600">
 					<button
 						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400 focus:outline-none"
 						onClick={decreaseSpeed}>
@@ -169,7 +260,7 @@ const App = () => {
 
 				<div className="h-6 w-px bg-gray-400"></div>
 
-				<div className="flex w-1/2 h-12  justify-between bg-rd-900 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-lg">
+				<div className="flex w-1/2 h-12  justify-between bg-rd-900 hover:bg-opacity-40 bg-opacity-0 bg-neutral-500 rounded-lg">
 					<button
 						className="flex items-center justify-center bg-gren-400 w-full h-full text-xl font-bold focus:outline-none"
 						style={{ userSelect: "none" }}
@@ -180,7 +271,7 @@ const App = () => {
 
 				<div className="h-6 w-px bg-gray-400"></div>
 
-				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-50 bg-opacity-0 bg-neutral-500 rounded-l-cust rounded-r-full h-12 justify-items-center align-center bg-prple-600">
+				<div className="flex justify-center mr-auto w-1/3 hover:bg-opacity-40 bg-opacity-0 bg-neutral-500 rounded-l-cust rounded-r-full h-12 justify-items-center align-center bg-prple-600">
 					<button
 						className="flex justify-center items-center h bg-rd-700 w-full hovr:text-red-500 bg-netral-400 focus:outline-none"
 						onClick={increaseSpeed}>

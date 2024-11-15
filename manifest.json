@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "YouTube Playback Speed",
 	"version": "1.0",
-	"description": "Adjust the playback speed of YouTube videos with ease, with keyboard shortcuts!",
+	"description": "Adjust the playback speed of YouTube videos, with keyboard shortcuts!",
 	"permissions": ["activeTab", "scripting"],
 	"content_scripts": [
 		{
@@ -22,8 +22,8 @@
 			//"matches": ["*://www.youtube.com/*"]
 		}
 	]
-	// ,
-	// "icons": {
-	//   "128": "icon-128.png"
-	// }
+	,
+	"icons": {
+	  "128": "icon-128.png"
+	}
 }

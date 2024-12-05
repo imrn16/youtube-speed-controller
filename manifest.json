@@ -7,26 +7,25 @@
 	"content_scripts": [
 		{
 			"matches": ["*://www.youtube.com/*"],
-			//"matches": ["<all_urls>"],
-            "css": ["dist/assets/index.css"],
+
+			"css": ["dist/assets/index.css"],
 			"js": ["content.js"],
 			"run_at": "document_end"
 		}
 	],
-	 "incognito": "split",
-	 
+	"incognito": "split",
+
 	"background": {
 		"service_worker": "public/background.js"
-	  },
+	},
 	"web_accessible_resources": [
 		{
 			"resources": ["dist/assets/index.js", "dist/assets/index.css"],
-			//"matches": ["<all_urls>"]
+
 			"matches": ["*://www.youtube.com/*"]
 		}
-	]
-	,
+	],
 	"icons": {
-	  "128": "icon-128.png"
+		"128": "icon-128.png"
 	}
 }
